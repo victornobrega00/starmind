@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+    --primary-blue: #0ea5e9;
+    --dark-blue: #1e3a8a;
+    --bg-color: #f0f7ff;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --success: #10b981;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; }
+
+/* NAVBAR */
+.navbar { background: linear-gradient(90deg, #1e3a8a 0%, #0ea5e9 100%); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; color: white; }
+.logo { font-size: 24px; font-weight: 800; }
+.user-controls { display: flex; align-items: center; gap: 15px; }
+.points-display, .avatar-display { background: rgba(255, 255, 255, 0.2); padding: 8px 16px; border-radius: 20px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+.avatar-display:hover { background: rgba(255, 255, 255, 0.3); }
+.settings-btn { background: rgba(255, 255, 255, 0.2); border: none; cursor: pointer; font-size: 20px; padding: 8px 12px; border-radius: 50%; color: white; transition: 0.2s; }
+.settings-btn:hover { background: rgba(255, 255, 255, 0.4); }
+
+/* UTILIDADES TELA */
+main { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+.view-hidden { display: none !important; }
+.view-active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* BANNER */
+.welcome-banner, .parental-header { background: linear-gradient(90deg, #1e3a8a 0%, #0ea5e9 100%); color: white; padding: 30px; border-radius: 16px; margin-bottom: 30px; }
+.stats-container { display: flex; gap: 15px; margin-top: 20px; }
+.stat-card { background: rgba(255, 255, 255, 0.2); padding: 12px 20px; border-radius: 10px; flex: 1; }
+.stat-title { font-size: 12px; display: block; margin-bottom: 5px; opacity: 0.9;}
+.stat-value { font-size: 22px; font-weight: bold; }
+
+/* FILTROS */
+.filters { display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 5px; }
+.filter-btn { background: white; border: 1px solid #e2e8f0; padding: 10px 20px; border-radius: 50px; font-weight: 700; color: var(--text-main); cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.02); white-space: nowrap; }
+.filter-btn.active { background: var(--primary-blue); color: white; border-color: var(--primary-blue); }
+
+/* VÍDEOS GRID */
+
+h3 { margin-bottom: 15px; font-size: 20px; color: #1e293b; }
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.video-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    border: 1px solid #f1f5f9;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.08);
+}
+
+.thumbnail {
+    height: 180px; /* Tamanho exato e ajustado para caber o layout */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px 20px 0 0;
+}
+
+/* Escurece levemente a imagem para destacar as tags e o botão de play */
+.thumbnail::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.15);
+}
+
+.play-btn {
+    z-index: 2;
+    background: #ffffff;
+    color: var(--primary-blue);
+    border: none;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    font-size: 20px;
+    padding-left: 5px; /* Centraliza o ícone visualmente */
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+}
+
+.video-card:hover .play-btn {
+    transform: scale(1.1);
+}
+
+/* TAGS SUPERIORES */
+.status-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    background: var(--success);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.platform-tag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 2;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 800;
+    color: white;
+}
+.tag-starmind { background: #3b82f6; }
+.tag-yt { background: #ef4444; }
+.tag-netflix { background: #e11d48; }
+
+/* INFORMAÇÕES DO VÍDEO (PARTE INFERIOR) */
+.video-info {
+    padding: 20px;
+}
+
+.video-info h4 {
+    font-size: 16px;
+    color: #1e293b;
+    margin-bottom: 25px;
+    min-height: 40px;
+    font-weight: 700;
+}
+
+.video-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.subject-pill {
+    background: #eff6ff;
+    color: #3b82f6;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.meta-time {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.meta-points {
+    color: #eab308;
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.video-info { padding: 15px; }
+.video-info h4 { font-size: 15px; margin-bottom: 12px; height: 40px; }
+.video-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted); font-weight: 600; }
+.subject-pill { background: #f0fdf4; color: #3b82f6; padding: 4px 10px; border-radius: 20px; font-size: 11px; }
+
+/* CONQUISTAS */
+.achievements-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+.ach-card { display: flex; align-items: center; padding: 15px; border-radius: 12px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+.ach-card.locked { background: #f8fafc; opacity: 0.6; filter: grayscale(100%); }
+.ach-icon { width: 40px; height: 40px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 15px; }
+.ach-card:not(.locked) .ach-icon { background: #fef08a; }
+.ach-text h4 { font-size: 14px; margin-bottom: 3px; }
+.ach-text p { font-size: 12px; color: var(--text-muted); }
+
+/* CONTROLE PARENTAL */
+.back-btn-light { background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+.settings-card { background: white; padding: 25px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; }
+.settings-card h3 { font-size: 16px; color: var(--dark-blue); margin-bottom: 15px; }
+.platform-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f5f9; font-weight: 600; }
+.add-video-form { display: flex; flex-direction: column; gap: 12px; }
+.add-video-form input, .add-video-form select { padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+.save-btn { background: var(--primary-blue); color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
+/* MODAL DE PERFIL */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+.modal-content { background: white; width: 90%; max-width: 400px; border-radius: 20px; padding: 25px; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.close-modal-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted); }
+.input-label { font-size: 14px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; display: block; }
+.profile-input { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 20px; font-size: 16px; }
+.avatar-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+.avatar-btn { font-size: 30px; background: #f8fafc; border: 2px solid transparent; border-radius: 16px; padding: 10px; cursor: pointer; transition: 0.2s; display: flex; justify-content: center;}
+.avatar-btn.selected { background: #38bdf8; border-color: #0284c7; }
+.save-profile-btn { width: 100%; background: var(--primary-blue); color: white; padding: 15px; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; margin-bottom: 20px; }
+.profile-stats { background: #f0f7ff; padding: 15px; border-radius: 12px; font-size: 14px; line-height: 1.6; }
+
+/* PLAYER DE VÍDEO */
+#player-view { max-width: 900px; }
+.player-header { display: flex; justify-content: space-between; align-items: center; background: var(--dark-blue); color: white; padding: 15px 25px; border-radius: 16px 16px 0 0; }
+.close-player-btn { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+.player-container { background: white; padding: 20px; border-radius: 0 0 16px 16px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+.iframe-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; margin-bottom: 20px; background: #000;}
+.iframe-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.player-controls { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 15px; border-radius: 12px; }
+.finish-video-btn { background: var(--success); color: white; border: none; padding: 12px 20px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; }
