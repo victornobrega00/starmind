@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StarMind - Streaming Educativo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo" onclick="goHome()" style="cursor: pointer;">⭐ STARMIND</div>
+    <div class="user-controls">
+        <div class="points-display" onclick="openStoreModal()" title="Abrir Loja de Recompensas">
+            🏆 <span id="nav-points">0</span> pontos
+        </div>
+        <div class="avatar-display" onclick="openProfileModal()" title="Meu Perfil">
+            <span id="nav-avatar">🦄</span> <span id="nav-name">Maria</span>
+        </div>
+        <button class="settings-btn" onclick="openParentalView()" title="Área dos Pais">⚙️</button>
+    </div>
+</nav>
+
+<main id="student-view" class="view view-active">
+    <header class="welcome-banner">
+        <h2>✨ Olá, <span id="banner-name">Maria</span>! 👋</h2>
+        <p>Continue aprendendo e ganhando estrelas!</p>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <span class="stat-title">Vídeos assistidos hoje</span>
+                <span class="stat-value" id="banner-videos">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-title">Sequência de dias</span>
+                <span class="stat-value" id="banner-streak">0 dias 🔥</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-title">Total de pontos</span>
+                <span class="stat-value"><span id="banner-points">0</span> ⭐</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="filters" id="filter-container">
+        <button class="filter-btn active" onclick="filterVideos('Todos', this)">🌟 Todos</button>
+        <button class="filter-btn" onclick="filterVideos('Matemática', this)">🔢 Matemática</button>
+        <button class="filter-btn" onclick="filterVideos('Ciências', this)">🔬 Ciências</button>
+        <button class="filter-btn" onclick="filterVideos('Português', this)">📚 Português</button>
+        <button class="filter-btn" onclick="filterVideos('Inglês', this)">🌍 Inglês</button>
+        <button class="filter-btn" onclick="filterVideos('Arte', this)">🎨 Arte</button>
+        <button class="filter-btn" onclick="filterVideos('Música', this)">🎵 Música</button>
+    </section>
+
+    <section class="video-section">
+        <h3>Vídeos Educativos</h3>
+        <div class="video-grid" id="video-grid">
+        </div>
+    </section>
+
+    <section class="achievements-section">
+        <h3>Suas Conquistas 🏆</h3>
+        <div class="achievements-grid" id="achievements-grid">
+        </div>
+    </section>
+</main>
+
+<main id="player-view" class="view view-hidden">
+    <div class="player-header">
+        <h2 id="player-title">Carregando aula...</h2>
+        <button class="close-player-btn" onclick="goHome()">✖</button>
+    </div>
+
+    <div class="player-container">
+        <div class="iframe-wrapper">
+            <iframe id="yt-player" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+        <div class="player-controls">
+            <p>Assista para validar e receber <strong id="player-points" style="color: #eab308;">0</strong> pontos!</p>
+            <button class="finish-video-btn" id="finish-btn" onclick="finishCurrentVideo()">✅ Marcar como Assistido</button>
+        </div>
+    </div>
+</main>
+
+<main id="parental-view" class="view view-hidden">
+    <header class="parental-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>🛡️ Controle Parental</h2>
+            <button class="back-btn-light" onclick="goHome()">✖ Voltar</button>
+        </div>
+        <p style="margin-top: 5px;">Gerencie o tempo de tela e a curadoria de conteúdo</p>
+    </header>
+
+    <section class="parental-settings">
+
+        <div class="settings-card compliance-card">
+            <div class="compliance-header">
+                <span class="law-badge">LEI N.º 15.211/2025</span>
+                <h3>⚖️ Diretrizes Ativas: ECA Digital (Lei Felca)</h3>
+            </div>
+            <p>Este ambiente opera sob o modelo de <strong>responsabilidade compartilhada</strong>. Protegemos os menores contra algoritmos viciantes e garantimos anúncios comerciais zero.</p>
+            <div class="compliance-features">
+                <div class="feature-item">🔒 Navegação blindada contra hiperlinks externos inseguros.</div>
+                <div class="feature-item">📊 Relatórios transparentes de pontuação e tempo de estudo.</div>
+            </div>
+        </div>
+        <div class="settings-card">
+            <h3>🕒 Limite de Tempo Diário de Tela</h3>
+            <div class="slider-wrapper">
+                <input type="range" min="15" max="240" value="60" step="15" class="time-slider">
+            </div>
+            <div class="slider-labels">
+                <span>15 min</span>
+                <span class="current-time-badge" id="current-time-display">60 minutos</span>
+                <span>4 horas</span>
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <h3>➕ Inserir Conteúdo Manualmente (Curadoria dos Pais)</h3>
+            <div class="add-video-form">
+                <input type="text" id="new-vid-url" placeholder="URL do YouTube (Ex: https://www.youtube.com/watch?v=dQw4w9WgXcQ)">
+                <input type="text" id="new-vid-title" placeholder="Título Amigável da Aula">
+                <select id="new-vid-subject">
+                    <option value="Matemática">Matemática</option>
+                    <option value="Ciências">Ciências</option>
+                    <option value="Português">Português</option>
+                    <option value="Inglês">Inglês</option>
+                    <option value="Arte">Arte</option>
+                    <option value="Música">Música</option>
+                </select>
+                <button class="save-btn" onclick="addNewVideo()">Autorizar e Incluir Vídeo</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div id="profile-modal" class="modal-overlay view-hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Editar Perfil Infantil</h3>
+            <button class="close-modal-btn" onclick="closeProfileModal()">✖</button>
+        </div>
+
+        <label class="input-label">Nome do Estudante</label>
+        <input type="text" id="edit-name" class="profile-input">
+
+        <label class="input-label">Selecione o Avatar</label>
+        <div class="avatar-options" id="avatar-grid">
+        </div>
+
+        <button class="save-profile-btn" onclick="saveProfile()">Confirmar Alterações</button>
+
+        <div class="profile-stats">
+            <p><strong>Pontuação Geral:</strong> <span id="modal-points">0</span> ⭐</p>
+            <p><strong>Vídeos Concluídos:</strong> <span id="modal-videos">0</span></p>
+            <p><strong>Sequência:</strong> <span id="modal-streak">0 dias</span> 🔥</p>
+        </div>
+    </div>
+</div>
+
+<div id="store-modal" class="modal-overlay view-hidden">
+    <div class="modal-content store-modal-content">
+        <div class="modal-header">
+            <h3>✨ Loja de Recompensas</h3>
+            <button class="close-modal-btn" onclick="closeStoreModal()">✖</button>
+        </div>
+        <p class="store-subtitle">Troque suas estrelas por prêmios incríveis!</p>
+
+        <div class="store-grid" id="store-grid">
+        </div>
+    </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
