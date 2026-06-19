@@ -136,40 +136,60 @@ function renderVideos(filterSubject) {
     filtered.forEach(vid => {
         let bgImage = '';
         switch(vid.subject) {
-            case 'Matemática': bgImage = 'img/tabuada.jpg'; break;
+            case 'Matemática': bgImage = 'img/tabuada.jpg'; break; // Ajustado para o nome correto da imagem
             case 'Ciências': bgImage = 'img/Ciencias.jpg'; break;
             case 'Português': bgImage = 'img/photo.jpg'; break;
             case 'Inglês': bgImage = 'img/ingles.jpg'; break;
             case 'Arte': bgImage = 'img/arts.jpg'; break;
-            case 'Música': bgImage = 'img/science.jpg'; break; // Mapeamento alternativo padrão
+            case 'Música': bgImage = 'img/science.jpg'; break;
             default: bgImage = `https://img.youtube.com/vi/${vid.ytId}/hqdefault.jpg`; break;
         }
 
-        // Correção de exibição de imagens quebradas injetando imagens padrão de internet caso as locais falhem
+        // Correção de exibição de imagens quebradas injetando imagens padrão do YouTube caso as locais falhem
         if(!bgImage || vid.id > 8) bgImage = `https://img.youtube.com/vi/${vid.ytId}/0.jpg`;
 
-        const watchedTag = vid.watched ? `<div class="status-badge">✔ Assistido</div>` : '';
-        let platClass = vid.platform === 'YouTube Kids' ? 'tag-yt' : (vid.platform === 'Netflix' ? 'tag-netflix' : 'tag-starmind');
+        // PROTEÇÃO CONTRA "UNDEFINED" (Fallbacks de segurança)
+        const safeTitle = vid.title || 'Aula Educativa';
+        const safeSubject = vid.subject || 'Geral';
+        const safeTime = vid.time || '10:00';
+        const safePoints = vid.points || 50;
+        const safePlatform = vid.platform || 'YouTube';
+        const safeYtId = vid.ytId || '';
+        const isWatched = vid.watched || false;
+
+        const watchedTag = isWatched ? `<div class="status-badge">✔ Assistido</div>` : '';
+
+        // Ajuste dinâmico da cor da tag da plataforma
+        const platSlug = (vid.platform || 'outros').toLowerCase().replace(/\s+/g, '-');
+        const platClass = `platform-${platSlug}`;
+
+
+        // Evita erro de aspas simples no título ao passar na função playVideo
+        const escapedTitle = safeTitle.replace(/'/g, "\\'");
 
         grid.innerHTML += `
-            <div class="video-card" onclick="playVideo(${vid.id}, '${vid.title}', '${vid.ytId}', ${vid.points})">
+            <div class="video-card" onclick="playVideo(${vid.id}, '${escapedTitle}', '${safeYtId}', ${safePoints}, ${isWatched})">
                 <div class="thumbnail" style="background-image: url('${bgImage}')">
                     ${watchedTag}
-                    <span class="platform-tag ${platClass}">${vid.platform}</span>
+                    <span class="platform-tag ${platClass}">${safePlatform}</span>
                     <button class="play-btn">▶</button>
                 </div>
                 <div class="video-info">
-                    <h4>${vid.title}</h4>
+                    <h4>${safeTitle}</h4>
                     <div class="video-meta">
-                        <span class="subject-pill">${vid.subject}</span>
-                        <span class="meta-time">⏱ ${vid.time}</span>
-                        <span class="meta-points">⭐ +${vid.points}</span>
+                        <span class="subject-pill">${safeSubject}</span>
+                        <span class="meta-time">⏱ ${safeTime}</span>
+                        <span class="meta-points">⭐ +${safePoints}</span>
                     </div>
                 </div>
             </div>
         `;
     });
-    renderAchievements();
+
+    // Atualiza as conquistas
+    if (typeof renderAchievements === 'function') {
+        renderAchievements();
+    }
 }
 
 

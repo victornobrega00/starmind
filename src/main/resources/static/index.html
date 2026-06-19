@@ -1,246 +1,252 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StarMind - Plataforma Educativa</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-</head>
-<body>
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>StarMind - Plataforma Educativa</title>
+        <link rel="stylesheet" href="css/style.css">
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    </head>
+    <body>
 
-<nav class="navbar view-hidden" id="main-nav">
-    <div class="logo" onclick="goHome()">⭐ STARMIND</div>
-    <div class="user-controls">
-        <div class="points-display" onclick="openStoreModal()" title="Abrir Loja de Recompensas">
-            🏆 <span id="nav-points">0</span> pontos
+    <nav class="navbar view-hidden" id="main-nav">
+        <div class="logo" onclick="goHome()">⭐ STARMIND</div>
+        <div class="user-controls">
+            <div class="points-display" onclick="openStoreModal()" title="Abrir Loja de Recompensas">
+                🏆 <span id="nav-points">0</span> pontos
+            </div>
+            <div class="avatar-display" onclick="openProfileModal()" title="Meu Perfil">
+                <span id="nav-avatar">🦄</span> <span id="nav-name">Estudante</span>
+            </div>
+            <button class="settings-btn" onclick="openParentalGate()" title="Área dos Pais">⚙️ Painel dos Pais</button>
+            <button class="logout-btn" onclick="logout()" title="Sair do Sistema">Sair</button>
         </div>
-        <div class="avatar-display" onclick="openProfileModal()" title="Meu Perfil">
-            <span id="nav-avatar">🦄</span> <span id="nav-name">Estudante</span>
-        </div>
-        <button class="settings-btn" onclick="openParentalGate()" title="Área dos Pais">⚙️ Painel dos Pais</button>
-        <button class="logout-btn" onclick="logout()" title="Sair do Sistema">Sair</button>
-    </div>
-</nav>
+    </nav>
 
-<main id="auth-view" class="view view-active auth-container">
-    <div class="auth-card">
-        <div class="auth-logo">⭐ STARMIND</div>
+    <main id="auth-view" class="view view-active auth-container">
+        <div class="auth-card">
+            <div class="auth-logo">⭐ STARMIND</div>
 
-        <div id="step-parent" class="auth-step">
-            <h2>Acesso dos Pais Responsáveis</h2>
-            <p class="auth-subtitle">Crie a conta de gerenciamento parental antes do acesso infantil.</p>
+            <div id="step-parent" class="auth-step">
+                <h2>Acesso dos Pais Responsáveis</h2>
+                <p class="auth-subtitle">Crie a conta de gerenciamento parental antes do acesso infantil.</p>
 
-            <div class="form-group">
-                <label>Nome do Responsável</label>
-                <input type="text" id="parent-name" placeholder="Ex: Maria Silva">
+                <div class="form-group">
+                    <label>Nome do Responsável</label>
+                    <input type="text" id="parent-name" placeholder="Ex: Maria Silva">
+                </div>
+                <div class="form-group">
+                    <label>E-mail de Controle</label>
+                    <input type="email" id="parent-email" placeholder="pais@exemplo.com">
+                </div>
+                <div class="form-group">
+                    <label>Criar PIN de Segurança (4 dígitos numéricos)</label>
+                    <input type="password" id="parent-pin" maxlength="4" placeholder="••••" style="text-align: center; font-size: 20px; letter-spacing: 8px;">
+                </div>
+                <button class="auth-btn" onclick="goToChildStep()">Avançar para Perfil Infantil ➔</button>
             </div>
-            <div class="form-group">
-                <label>E-mail de Controle</label>
-                <input type="email" id="parent-email" placeholder="pais@exemplo.com">
-            </div>
-            <div class="form-group">
-                <label>Criar PIN de Segurança (4 dígitos numéricos)</label>
-                <input type="password" id="parent-pin" maxlength="4" placeholder="••••" style="text-align: center; font-size: 20px; letter-spacing: 8px;">
-            </div>
-            <button class="auth-btn" onclick="goToChildStep()">Avançar para Perfil Infantil ➔</button>
-        </div>
 
-        <div id="step-child" class="auth-step view-hidden">
-            <h2>Perfil do Aluno(a)</h2>
-            <p class="auth-subtitle">Agora, configure os dados de quem irá aprender e se divertir!</p>
+            <div id="step-child" class="auth-step view-hidden">
+                <h2>Perfil do Aluno(a)</h2>
+                <p class="auth-subtitle">Agora, configure os dados de quem irá aprender e se divertir!</p>
 
-            <div class="form-group">
-                <label>Nome da Criança</label>
-                <input type="text" id="auth-child-name" placeholder>
-            </div>
-            <div class="form-group">
-                <label>Escolha o primeiro Avatar de Acesso</label>
-                <div class="avatar-row-signup">
-                    <span class="avatar-signup-opt selected" onclick="selectSignupAvatar('🦄', this)">🦄</span>
-                    <span class="avatar-signup-opt" onclick="selectSignupAvatar('🐶', this)">🐶</span>
-                    <span class="avatar-signup-opt" onclick="selectSignupAvatar('🐱', this)">🐱</span>
-                    <span class="avatar-signup-opt" onclick="selectSignupAvatar('🦊', this)">🦊</span>
+                <div class="form-group">
+                    <label>Nome da Criança</label>
+                    <input type="text" id="auth-child-name" placeholder>
+                </div>
+                <div class="form-group">
+                    <label>Escolha o primeiro Avatar de Acesso</label>
+                    <div class="avatar-row-signup">
+                        <span class="avatar-signup-opt selected" onclick="selectSignupAvatar('🦄', this)">🦄</span>
+                        <span class="avatar-signup-opt" onclick="selectSignupAvatar('🐶', this)">🐶</span>
+                        <span class="avatar-signup-opt" onclick="selectSignupAvatar('🐱', this)">🐱</span>
+                        <span class="avatar-signup-opt" onclick="selectSignupAvatar('🦊', this)">🦊</span>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="auth-btn-secondary" onclick="backToParentStep()">⬅ Voltar</button>
+                    <button class="auth-btn" style="background: var(--success);" onclick="handleFinalRegistration()">Concluir e Iniciar! 🎉</button>
                 </div>
             </div>
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-                <button class="auth-btn-secondary" onclick="backToParentStep()">⬅ Voltar</button>
-                <button class="auth-btn" style="background: var(--success);" onclick="handleFinalRegistration()">Concluir e Iniciar! 🎉</button>
+        </div>
+    </main>
+
+    <main id="student-view" class="view view-hidden">
+        <header class="welcome-banner">
+            <h2>✨ Olá, <span id="banner-name">Estudante</span>! 👋</h2>
+            <p>Seu painel de aprendizado está pronto. Vamos conquistar novas estrelas!</p>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <span class="stat-title">Aulas Concluídas</span>
+                    <span class="stat-value" id="banner-videos">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-title">Sequência Ativa</span>
+                    <span class="stat-value" id="banner-streak">0 dias 🔥</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-title">Saldo Disponível</span>
+                    <span class="stat-value"><span id="banner-points">0</span> ⭐</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="filters" id="filter-container">
+            <button class="filter-btn active" onclick="filterVideos('Todos', this)">🌟 Todos</button>
+            <button class="filter-btn" onclick="filterVideos('Matemática', this)">🔢 Matemática</button>
+            <button class="filter-btn" onclick="filterVideos('Ciências', this)">🔬 Ciências</button>
+            <button class="filter-btn" onclick="filterVideos('Português', this)">📚 Português</button>
+            <button class="filter-btn" onclick="filterVideos('Inglês', this)">🌍 Inglês</button>
+            <button class="filter-btn" onclick="filterVideos('Arte', this)">🎨 Arte</button>
+        </section>
+
+        <section class="video-section">
+            <h3>Trilhas de Aprendizado Disponíveis</h3>
+            <div class="video-grid" id="video-grid"></div>
+        </section>
+
+        <section class="achievements-section">
+            <h3>Suas Conquistas 🏆</h3>
+            <div class="achievements-grid" id="achievements-grid"></div>
+        </section>
+    </main>
+
+    <main id="player-view" class="view view-hidden">
+        <div class="player-header">
+            <button class="back-menu-btn" onclick="goHome()">⬅ Voltar ao Menu</button>
+            <h2 id="player-title">Carregando vídeo acadêmico...</h2>
+        </div>
+
+        <div class="player-container">
+            <div class="iframe-wrapper">
+                <iframe id="yt-player" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <div class="player-controls">
+                <div>
+                    <p style="font-size: 14px; color: var(--text-muted);">Recompensa por dedicação:</p>
+                    <p style="font-size: 20px; font-weight: 800; color: #eab308;">⭐ <span id="player-points">0</span> Estrelas</p>
+                </div>
+                <button class="finish-video-btn" id="finish-btn" onclick="finishCurrentVideo()">✅ Marcar como Assistido</button>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 
-<main id="student-view" class="view view-hidden">
-    <header class="welcome-banner">
-        <h2>✨ Olá, <span id="banner-name">Estudante</span>! 👋</h2>
-        <p>Seu painel de aprendizado está pronto. Vamos conquistar novas estrelas!</p>
-        <div class="stats-container">
-            <div class="stat-card">
-                <span class="stat-title">Aulas Concluídas</span>
-                <span class="stat-value" id="banner-videos">0</span>
+    <main id="parental-view" class="view view-hidden">
+        <div class="parental-center-container">
+
+            <header class="parental-header">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                    <div>
+                        <h2>🛡️ Central do Responsável: <span id="parental-user-title">Pai</span></h2>
+                        <p style="font-size: 14px; opacity: 0.9; margin-top: 4px;">Gerencie filtros de exibição e acompanhe o progresso geral.</p>
+                    </div>
+                    <button class="back-btn-light" onclick="goHome()">✖ Sair do Painel</button>
+                </div>
+            </header>
+
+            <div class="settings-card compliance-card">
+                <div class="compliance-header" style="margin-bottom: 12px;">
+                    <span class="law-badge" style="background: #fff1f2; color: #e11d48; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 800; border: 1px solid #fecdd3;">LEI N.º 15.211/2025</span>
+                    <h3 style="margin-top: 8px;">⚖️ Diretrizes Ativas: ECA Digital (Lei Felca)</h3>
+                </div>
+                <p style="color: #475569; line-height: 1.5;">Este ambiente opera sob o modelo de <strong>responsabilidade compartilhada</strong>. Protegemos os menores contra algoritmos viciantes e garantimos anúncios comerciais zero.</p>
+                <div class="compliance-features" style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px; color: #64748b; font-size: 14px; font-weight: 600;">
+                    <div class="feature-item">🔒 Navegação blindada contra hiperlinks externos inseguros.</div>
+                    <div class="feature-item">📊 Relatórios transparentes de pontuação e tempo de estudo.</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <span class="stat-title">Sequência Ativa</span>
-                <span class="stat-value" id="banner-streak">0 dias 🔥</span>
+
+            <div class="settings-card">
+                <h3>🕒 Limite de Tempo Diário de Tela</h3>
+                <div class="slider-wrapper">
+                    <input type="range" min="15" max="240" value="60" step="15" class="time-slider">
+                </div>
+                <div class="slider-labels">
+                    <span>15 min</span>
+                    <span class="current-time-badge" id="current-time-display">60 minutos</span>
+                    <span>4 horas</span>
+                </div>
             </div>
-            <div class="stat-card">
-                <span class="stat-title">Saldo Disponível</span>
-                <span class="stat-value"><span id="banner-points">0</span> ⭐</span>
+
+            <section class="parental-settings">
+
+                <div class="settings-card">
+                    <h3>🗑️ Vídeos Ativos no Painel Infantil</h3>
+                    <p style="font-size: 13px; color: #64748b; margin-bottom: 15px; line-height: 1.4;">Exclua materiais que julgar impróprios ou obsoletos para o momento atual da criança.</p>
+                    <div class="video-manage-list" id="parental-video-list"></div>
+                </div>
+
+                <div class="settings-card">
+                    <h3>➕ Autorizar Novo Vídeo Didático</h3>
+                    <p style="font-size: 13px; color: #64748b; margin-bottom: 10px; line-height: 1.4;">Adicione novos conteúdos do YouTube copiando e colando o link abaixo.</p>
+
+                    <div class="add-video-form">
+                        <label>Link da Aula</label>
+                        <input type="text" id="new-vid-url" placeholder="URL do YouTube (Ex: https://www.youtube.com/watch?v=...)">
+
+                        <label>Título para a Criança</label>
+                        <input type="text" id="new-vid-title" placeholder="Nome Simplificado (Ex: Matemática Divertida)">
+
+                        <label>Categoria / Disciplina</label>
+                        <select id="new-vid-subject">
+                            <option value="Matemática">🔢 Matemática</option>
+                            <option value="Ciências">🔬 Ciências</option>
+                            <option value="Português">📚 Português</option>
+                            <option value="Inglês">🌍 Inglês</option>
+                            <option value="Arte">🎨 Arte</option>
+                        </select>
+
+                        <button class="save-btn" onclick="addNewVideo()">Validar e Adicionar ao Catálogo</button>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <div id="pin-modal" class="modal-overlay view-hidden">
+        <div class="modal-content" style="text-align: center; max-width: 360px;">
+            <div class="modal-header" style="justify-content: center; position: relative;">
+                <h3 style="color: #e11d48;">Acesso Restrito</h3>
+                <button class="close-modal-btn" onclick="closeParentalGate()" style="position: absolute; right: 0;">✖</button>
             </div>
+            <p style="font-size: 14px; margin-bottom: 20px; color: var(--text-muted);">Digite seu PIN de 4 dígitos configurado no cadastro:</p>
+
+            <input type="password" id="gate-pin-input" maxlength="4" class="profile-input" placeholder="••••" style="text-align: center; font-size: 26px; letter-spacing: 12px; max-width: 180px; margin: 0 auto 20px auto; display: block;">
+
+            <button class="save-profile-btn" style="background: #e11d48;" onclick="verifyParentalGate()">Confirmar PIN</button>
         </div>
-    </header>
-
-    <section class="filters" id="filter-container">
-        <button class="filter-btn active" onclick="filterVideos('Todos', this)">🌟 Todos</button>
-        <button class="filter-btn" onclick="filterVideos('Matemática', this)">🔢 Matemática</button>
-        <button class="filter-btn" onclick="filterVideos('Ciências', this)">🔬 Ciências</button>
-        <button class="filter-btn" onclick="filterVideos('Português', this)">📚 Português</button>
-        <button class="filter-btn" onclick="filterVideos('Inglês', this)">🌍 Inglês</button>
-        <button class="filter-btn" onclick="filterVideos('Arte', this)">🎨 Arte</button>
-    </section>
-
-    <section class="video-section">
-        <h3>Trilhas de Aprendizado Disponíveis</h3>
-        <div class="video-grid" id="video-grid"></div>
-    </section>
-
-    <section class="achievements-section">
-        <h3>Suas Conquistas 🏆</h3>
-        <div class="achievements-grid" id="achievements-grid"></div>
-    </section>
-</main>
-
-<main id="player-view" class="view view-hidden">
-    <div class="player-header">
-        <button class="back-menu-btn" onclick="goHome()">⬅ Voltar ao Menu</button>
-        <h2 id="player-title">Carregando vídeo acadêmico...</h2>
     </div>
 
-    <div class="player-container">
-        <div class="iframe-wrapper">
-            <iframe id="yt-player" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-        <div class="player-controls">
-            <div>
-                <p style="font-size: 14px; color: var(--text-muted);">Recompensa por dedicação:</p>
-                <p style="font-size: 20px; font-weight: 800; color: #eab308;">⭐ <span id="player-points">0</span> Estrelas</p>
+    <div id="profile-modal" class="modal-overlay view-hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ajustes do Perfil</h3>
+                <button class="close-modal-btn" onclick="closeProfileModal()">✖</button>
             </div>
-            <button class="finish-video-btn" id="finish-btn" onclick="finishCurrentVideo()">✅ Marcar como Assistido</button>
+
+            <label class="input-label">Nome do Estudante</label>
+            <input type="text" id="edit-name" class="profile-input">
+
+            <label class="input-label">Selecionar Ícone Cadastrado</label>
+            <div class="avatar-options" id="avatar-grid"></div>
+
+            <button class="save-profile-btn" onclick="saveProfile()">Salvar Modificações</button>
         </div>
     </div>
-</main>
 
-<main id="parental-view" class="view view-hidden">
-    <header class="parental-header">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <h2>🛡️ Central do Responsável: <span id="parental-user-title">Pai</span></h2>
-                <p style="font-size: 14px; opacity: 0.9;">Gerencie filtros de exibição e acompanhe o progresso geral.</p>
+
+    <div id="store-modal" class="modal-overlay view-hidden">
+        <div class="modal-content store-modal-content">
+            <div class="modal-header">
+                <h3>✨ Loja de Troca de Estrelas</h3>
+                <button class="close-modal-btn" onclick="closeStoreModal()">✖</button>
             </div>
-            <button class="back-btn-light" onclick="goHome()">✖ Sair do Painel</button>
-        </div>
-    </header>
-
-    <div class="settings-card compliance-card">
-        <div class="compliance-header">
-            <span class="law-badge">LEI N.º 15.211/2025</span>
-            <h3>⚖️ Diretrizes Ativas: ECA Digital (Lei Felca)</h3>
-        </div>
-        <p>Este ambiente opera sob o modelo de <strong>responsabilidade compartilhada</strong>. Protegemos os menores contra algoritmos viciantes e garantimos anúncios comerciais zero.</p>
-        <div class="compliance-features">
-            <div class="feature-item">🔒 Navegação blindada contra hiperlinks externos inseguros.</div>
-            <div class="feature-item">📊 Relatórios transparentes de pontuação e tempo de estudo.</div>
-        </div>
-    </div>
-    <div class="settings-card">
-        <h3>🕒 Limite de Tempo Diário de Tela</h3>
-        <div class="slider-wrapper">
-            <input type="range" min="15" max="240" value="60" step="15" class="time-slider">
-        </div>
-        <div class="slider-labels">
-            <span>15 min</span>
-            <span class="current-time-badge" id="current-time-display">60 minutos</span>
-            <span>4 horas</span>
+            <p class="store-subtitle">Invista suas estrelas conquistadas em novos avatares!</p>
+            <div class="store-grid" id="store-grid"></div>
         </div>
     </div>
 
-    <section class="parental-settings">
-        <div class="settings-card">
-            <h3>🗑️ Vídeos Ativos no Painel Infantil</h3>
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Exclua materiais que julgar impróprios ou obsoletos para o momento atual da criança.</p>
-            <div class="video-manage-list" id="parental-video-list"></div>
-        </div>
-
-        <div class="settings-card">
-            <h3>➕ Autorizar Novo Vídeo Didático</h3>
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Adicione novos conteúdos do YouTube copiando e colando o link abaixo.</p>
-
-            <div class="add-video-form">
-                <label>Link da Aula</label>
-                <input type="text" id="new-vid-url" placeholder="URL do YouTube (Ex: https://www.youtube.com/watch?v=...)">
-
-                <label>Título para a Criança</label>
-                <input type="text" id="new-vid-title" placeholder="Nome Simplificado (Ex: Matemática Divertida)">
-
-                <label>Categoria / Disciplina</label>
-                <select id="new-vid-subject">
-                    <option value="Matemática">🔢 Matemática</option>
-                    <option value="Ciências">🔬 Ciências</option>
-                    <option value="Português">📚 Português</option>
-                    <option value="Inglês">🌍 Inglês</option>
-                    <option value="Arte">🎨 Arte</option>
-                </select>
-
-                <button class="save-btn" onclick="addNewVideo()">Validar e Adicionar ao Catálogo</button>
-            </div>
-        </div>
-    </section>
-</main>
-
-<div id="pin-modal" class="modal-overlay view-hidden">
-    <div class="modal-content" style="text-align: center; max-width: 360px;">
-        <div class="modal-header" style="justify-content: center; position: relative;">
-            <h3 style="color: #e11d48;">Acesso Restrito</h3>
-            <button class="close-modal-btn" onclick="closeParentalGate()" style="position: absolute; right: 0;">✖</button>
-        </div>
-        <p style="font-size: 14px; margin-bottom: 20px; color: var(--text-muted);">Digite seu PIN de 4 dígitos configurado no cadastro:</p>
-
-        <input type="password" id="gate-pin-input" maxlength="4" class="profile-input" placeholder="••••" style="text-align: center; font-size: 26px; letter-spacing: 12px; max-width: 180px; margin: 0 auto 20px auto; display: block;">
-
-        <button class="save-profile-btn" style="background: #e11d48;" onclick="verifyParentalGate()">Confirmar PIN</button>
-    </div>
-</div>
-
-<div id="profile-modal" class="modal-overlay view-hidden">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Ajustes do Perfil</h3>
-            <button class="close-modal-btn" onclick="closeProfileModal()">✖</button>
-        </div>
-
-        <label class="input-label">Nome do Estudante</label>
-        <input type="text" id="edit-name" class="profile-input">
-
-        <label class="input-label">Selecionar Ícone Cadastrado</label>
-        <div class="avatar-options" id="avatar-grid"></div>
-
-        <button class="save-profile-btn" onclick="saveProfile()">Salvar Modificações</button>
-    </div>
-</div>
-
-
-<div id="store-modal" class="modal-overlay view-hidden">
-    <div class="modal-content store-modal-content">
-        <div class="modal-header">
-            <h3>✨ Loja de Troca de Estrelas</h3>
-            <button class="close-modal-btn" onclick="closeStoreModal()">✖</button>
-        </div>
-        <p class="store-subtitle">Invista suas estrelas conquistadas em novos avatares!</p>
-        <div class="store-grid" id="store-grid"></div>
-    </div>
-</div>
-
-<script src="js/app.js"></script>
-</body>
-</html>
+    <script src="js/app.js"></script>
+    </body>
+    </html>
