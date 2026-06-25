@@ -1,0 +1,17 @@
+FROM ubuntu:latest
+LABEL authors="victo"
+
+ENTRYPOINT ["top", "-b"]
+
+# Passo 1: Baixar o Gradle e compilar o projeto Java
+FROM gradle:8.7-jdk21 AS build
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle build -x test --no-daemon
+
+# Passo 2: Criar o ambiente de execução super leve com Java
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY --from=build /home/gradle/src/build/libs/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
