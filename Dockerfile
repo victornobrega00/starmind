@@ -1,8 +1,3 @@
-FROM ubuntu:latest
-LABEL authors="victo"
-
-ENTRYPOINT ["top", "-b"]
-
 # Passo 1: Baixar o Gradle e compilar o projeto Java
 FROM gradle:8.7-jdk21 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
