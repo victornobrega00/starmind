@@ -1,5 +1,5 @@
-# Passo 1: Baixar o Gradle e compilar o projeto Java
-FROM gradle:8.7-jdk21 AS build
+# Passo 1: Baixar o Gradle atualizado e compilar o projeto Java
+FROM gradle:8.14-jdk21 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle build -x test --no-daemon
